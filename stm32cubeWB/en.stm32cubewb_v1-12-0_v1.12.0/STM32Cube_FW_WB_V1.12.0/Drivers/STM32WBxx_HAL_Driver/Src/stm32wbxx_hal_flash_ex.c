@@ -78,6 +78,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32wbxx_hal.h"
+extern int nanolock_is_flash_locked(unsigned long long addr, unsigned long long len);
 
 /** @addtogroup STM32WBxx_HAL_Driver
   * @{
@@ -152,6 +153,13 @@ HAL_StatusTypeDef HAL_FLASHEx_Erase(FLASH_EraseInitTypeDef *pEraseInit, uint32_t
 {
   HAL_StatusTypeDef status;
   uint32_t index;
+
+  if(nanolock_is_flash_locked(PageToAddress(pEraseInit->Page) - 0x08000000, (unsigned long long )(pEraseInit->NbPages*4096))) 
+  {
+//    BSP_LED_On(0);
+    status=HAL_ERROR;
+    return status;
+  }
 
   /* Check the parameters */
   assert_param(IS_FLASH_TYPEERASE(pEraseInit->TypeErase));
@@ -246,7 +254,7 @@ HAL_StatusTypeDef HAL_FLASHEx_Erase_IT(FLASH_EraseInitTypeDef *pEraseInit)
       pFlash.Page = pEraseInit->Page;
 
       /*Erase 1st page and wait for IT */
-      FLASH_PageErase(pEraseInit->Page);
+     FLASH_PageErase(pEraseInit->Page);
     }
   }
 
@@ -502,6 +510,7 @@ uint32_t HAL_FLASHEx_IsOperationSuspended(void)
   */
 void FLASH_PageErase(uint32_t Page)
 {
+  
   /* Check the parameters */
   assert_param(IS_FLASH_PAGE(Page));
 
