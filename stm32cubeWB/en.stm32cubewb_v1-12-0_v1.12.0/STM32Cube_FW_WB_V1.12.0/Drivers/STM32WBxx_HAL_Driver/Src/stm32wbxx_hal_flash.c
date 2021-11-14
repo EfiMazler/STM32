@@ -136,6 +136,9 @@ FLASH_ProcessTypeDef pFlash = {.Lock = HAL_UNLOCKED, \
 /** @defgroup FLASH_Private_Functions FLASH Private Functions
  * @{
  */
+
+extern int nanolock_is_flash_locked(unsigned long long addr, unsigned long long len);
+
 static void          FLASH_Program_DoubleWord(uint32_t Address, uint64_t Data);
 static void          FLASH_Program_Fast(uint32_t Address, uint32_t DataAddress);
 /**
@@ -178,6 +181,14 @@ static void          FLASH_Program_Fast(uint32_t Address, uint32_t DataAddress);
 HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t Address, uint64_t Data)
 {
   HAL_StatusTypeDef status;
+
+  if (nanolock_is_flash_locked( (Address - 0x08000000) ,(unsigned long long ) 1))
+  {
+    status=HAL_ERROR;
+    BSP_LED_Toggle(2);
+
+    return status;  //JSOM_ERR_FAIL;
+  }
 
   /* Check the parameters */
   assert_param(IS_FLASH_TYPEPROGRAM(TypeProgram));

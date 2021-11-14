@@ -932,7 +932,7 @@ typedef struct
 #define SRAM2B_BASE            (SRAM_BASE + 0x00038000UL)/*!< SRAM2B(32 KB) base address       */
 
 /* Memory Size */
-#define FLASH_SIZE              (((uint32_t)(*((uint16_t *)FLASHSIZE_BASE)) & (0x07FFUL)) << 10U)
+#define FLASH_SIZE              (((uint32_t)(*((uint16_t *)FLASHSIZE_BASE)) & (0x07FFUL)) << 10U) 
 #define SRAM1_SIZE              0x00030000UL   /*!< SRAM1 default size : 192 kB  */
 #define SRAM2A_SIZE             0x00008000UL   /*!< SRAM2a default size : 32 kB  */
 #define SRAM2B_SIZE             0x00008000UL   /*!< SRAM2b default size : 32 kB  */
