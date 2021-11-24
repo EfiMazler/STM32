@@ -185,7 +185,7 @@ HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t Address, uint
   if (nanolock_is_flash_locked( (Address - 0x08000000) ,(unsigned long long ) 1))
   {
     status=HAL_ERROR;
-    BSP_LED_Toggle(2);
+//    BSP_LED_Toggle(2);
 
     return status;  //JSOM_ERR_FAIL;
   }

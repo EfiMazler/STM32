@@ -160,7 +160,7 @@ int mtd_simple_read(unsigned int mtd_num, unsigned int offset, char *data, uint3
 
  	// Sanity check for the erase size
 	if (len % FLASH_PAGE_SIZE != 0) {
-			BSP_LED_On(LED1);
+			//BSP_LED_On(LED1);
 
  		pr_emerg("Nanolock: mtd erase bad params\n");
 		ret = -EINVAL;
@@ -356,7 +356,7 @@ int mtd_simple_write(unsigned int mtd_num, unsigned int offset, char *data, uint
 		
 	if (ret < 0) {
 		pr_warn("Nanolock: Failed to read from mtd %d\n", ret);
-	  BSP_LED_On(2);
+//	  BSP_LED_On(2);
 
 		if (ret >= 0)
 		{
@@ -367,7 +367,7 @@ int mtd_simple_write(unsigned int mtd_num, unsigned int offset, char *data, uint
 
 	if ( memcmp((char *)buf, (char *)data,numberofwords) != 0 ) {
 		pr_warn("Nanolock: mtd write and read doesn't match, part: %d, addr: 0x%x\n", mtd_num, offset);
-	  BSP_LED_On(2);
+	//  BSP_LED_On(2);
 		ret = -EIO;
 		goto out_free;
 	}
@@ -772,7 +772,7 @@ out:
  	}
  	obscure_buffer((char*)nvm->event_logs, sizeof(nvm->event_logs), (char*)nvm->event_logs);
 
- 	BSP_LED_On(0);
+ 	//BSP_LED_On(0);
  out:
 	return ret;
  }
@@ -1254,7 +1254,7 @@ int nanolock_is_flash_locked(unsigned long long addr, unsigned long long len)
 		if (ret) {
 //			pr_warn("Nanolock: detected access to protecting nvm partition %d, addr %llx\n", partition, addr);
 			// Log write to protected memory
-			BSP_LED_Toggle(0);
+//			BSP_LED_Toggle(0);
 			nanolock_log(&nl_nvm, EventType_ProtectedWrite, addr);
 			nanolock_increase_counter(&nl_nvm, EventCounters_ProtectedWritesCounter);
 
